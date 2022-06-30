@@ -6,11 +6,8 @@ package dba;
 
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ConnectDB {
 
@@ -32,7 +29,7 @@ public class ConnectDB {
 public static Connection getConnect(){
      String strServer;
      String strDatabase;
-     Connection conn = getConnection(strServer="HONGHONGKUTE", strDatabase="db_Management_System");
+     Connection conn = getConnection(strServer="localhost", strDatabase="final_DoAn");
      return conn;
 }
 
