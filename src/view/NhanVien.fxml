@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="820.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NhanVienController">
+   <children>
+      <HBox prefHeight="820.0" prefWidth="1080.0">
+         <children>
+            <VBox prefHeight="820.0" prefWidth="540.0">
+               <children>
+                  <Pane prefHeight="341.0" prefWidth="540.0">
+                     <children>
+                        <Label layoutX="18.0" layoutY="112.0" text="Mã NV">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <TextField fx:id="txt_MaNV" layoutX="80.0" layoutY="108.0" />
+                        <TextField fx:id="txt_TenNV" layoutX="80.0" layoutY="145.0" />
+                        <Label layoutX="16.0" layoutY="149.0" text="Tên NV">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <Label layoutX="18.0" layoutY="189.0" text="Địa chỉ">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <Label layoutX="19.0" layoutY="231.0" text="SĐT">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <TextField fx:id="txt_DiaChi" layoutX="80.0" layoutY="185.0" />
+                        <TextField fx:id="txt_SDT" layoutX="80.0" layoutY="227.0" />
+                        <Button fx:id="btn_Them" layoutX="63.0" layoutY="269.0" mnemonicParsing="false" prefWidth="50.0" text="Thêm" />
+                        <Button fx:id="btn_Sua" layoutX="121.0" layoutY="269.0" mnemonicParsing="false" prefWidth="50.0" text="Sửa" />
+                        <Button fx:id="btn_Xoa" layoutX="179.0" layoutY="269.0" mnemonicParsing="false" prefWidth="50.0" text="Xoá" />
+                        <PasswordField fx:id="pass_Old" layoutX="359.0" layoutY="145.0" />
+                        <PasswordField fx:id="pass_New" layoutX="359.0" layoutY="185.0" />
+                        <PasswordField fx:id="pass_NewConfirm" layoutX="359.0" layoutY="227.0" />
+                        <Label layoutX="269.0" layoutY="149.0" text="Mật khẩu cũ">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="269.0" layoutY="189.0" text="Mật khẩu mới">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="269.0" layoutY="231.0" text="Xác nhận">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btn_ChangePass" layoutX="359.0" layoutY="269.0" mnemonicParsing="false" text="Đổi Mật Khẩu" />
+                        <Label layoutX="178.0" layoutY="23.0" text="Thông tin Nhân Viên">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Line endX="436.0" layoutX="99.0" layoutY="70.0" startX="-104.0" />
+                     </children>
+                  </Pane>
+                  <TableView prefHeight="503.0" prefWidth="400.0">
+                    <columns>
+                      <TableColumn fx:id="STT_col" prefWidth="30.0" text="STT" />
+                      <TableColumn fx:id="MaNV_col" prefWidth="54.0" text="Mã NV" />
+                        <TableColumn fx:id="TenNV_col" prefWidth="168.0" text="Tên NV" />
+                        <TableColumn fx:id="DiaChi_col" prefWidth="136.0" text="Địa Chỉ" />
+                        <TableColumn fx:id="SDT_col" prefWidth="151.0" text="SĐT" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </TableView>
+               </children>
+               <HBox.margin>
+                  <Insets left="5.0" right="2.5" />
+               </HBox.margin>
+            </VBox>
+            <Line endX="-98.70710754394531" endY="819.2929077148438" startX="-100.0" />
+            <VBox prefHeight="820.0" prefWidth="540.0">
+               <children>
+                  <Pane prefHeight="136.0" prefWidth="680.0">
+                     <children>
+                        <TextField fx:id="txt_MaHD" layoutX="111.0" layoutY="33.0" />
+                        <TextField fx:id="txt_NgayBD" layoutX="111.0" layoutY="72.0" promptText="Từ ngày" />
+                        <TextField fx:id="txt_NgayKT" layoutX="286.0" layoutY="72.0" promptText="Đến ngày" />
+                        <Label layoutX="25.0" layoutY="37.0" text="Tìm Mã HĐ">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="25.0" layoutY="76.0" text="Tìm Ngày">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Line endX="3.0" endY="-0.5" layoutX="275.0" layoutY="85.0" startX="-7.0" startY="-0.5" />
+                        <Button fx:id="btn_TimKiemMaHD" layoutX="286.0" layoutY="33.0" mnemonicParsing="false" text="Tìm kiếm" />
+                        <Button fx:id="btn_LocTheoNgay" layoutX="453.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="64.0" text="Lọc" />
+                     </children></Pane>
+                  <TableView prefHeight="316.0" prefWidth="680.0">
+                    <columns>
+                      <TableColumn fx:id="Col_STT" prefWidth="72.0" text="STT" />
+                      <TableColumn fx:id="Col_MaHD" prefWidth="90.0" text="Mã HĐ" />
+                        <TableColumn fx:id="Col_NgayLap" prefWidth="146.0" text="Ngày Lập" />
+                        <TableColumn fx:id="Col_MaKH" prefWidth="73.0" text="Mã KH" />
+                        <TableColumn fx:id="Col_TongTien" prefWidth="158.0" text="Tổng Tiền" />
+                    </columns>
+                  </TableView>
+                  <TableView prefHeight="371.0" prefWidth="680.0">
+                    <columns>
+                      <TableColumn fx:id="Col1_STT" prefWidth="52.0" text="STT" />
+                        <TableColumn fx:id="Col1_MaMH" prefWidth="59.0" text="Mã MH" />
+                        <TableColumn fx:id="Col1_TenMH" prefWidth="233.0" text="Tên MH" />
+                        <TableColumn fx:id="Col1_SL" prefWidth="68.0" text="Số Lượng" />
+                        <TableColumn fx:id="Col1_ThanhTien" prefWidth="127.0" text="Thành Tiền" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TableView>
+               </children>
+               <HBox.margin>
+                  <Insets left="2.5" right="5.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

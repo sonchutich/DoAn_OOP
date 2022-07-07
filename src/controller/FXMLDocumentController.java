@@ -36,10 +36,11 @@ public class FXMLDocumentController {
     private AnchorPane rootPane;
     Connection con = ConnectDB.getConnect();
     String st="";
+    static public String username;
     
     @FXML
     void login(ActionEvent event) throws IOException, SQLException {
-        String username = txtUserName.getText();
+        username = txtUserName.getText();
         String password = txtPassword.getText();
         if(checkTextField(username, password)){
         if(checkAcc(username, password)){

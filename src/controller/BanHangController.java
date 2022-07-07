@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -233,12 +232,8 @@ public class BanHangController implements Initializable {
         }
     }
 
-    public void displaymaNV() {
-        // đoạn này chưa lấy được mã nv từ form login sang
-    }
-
     private void loadTable() {
-
+        txt_MaNV.setText(FXMLDocumentController.username);
         maCol.setCellValueFactory(new PropertyValueFactory<>("MaMH"));
         TenCol.setCellValueFactory(new PropertyValueFactory<>("Ten"));
         SLCol.setCellValueFactory(new PropertyValueFactory<>("SoLuong"));

@@ -80,7 +80,16 @@ public class DashboardController implements Initializable {
     }
     @FXML
     void KhachHang(ActionEvent event) throws IOException {
-        Pane pane = FXMLLoader.load(getClass().getClassLoader().getResource("view/BanHang.fxml"));
+        Pane pane = FXMLLoader.load(getClass().getClassLoader().getResource("view/KhachHang.fxml"));
+        rootPane.getChildren().setAll(pane);
+        
+        Stage modal_stage = new Stage();
+        modal_stage.setScene(new Scene(pane));
+        modal_stage.setTitle("modal");
+    }
+    @FXML
+    void Nhanvien(ActionEvent event) throws IOException {
+        Pane pane = FXMLLoader.load(getClass().getClassLoader().getResource("view/NhanVien.fxml"));
         rootPane.getChildren().setAll(pane);
         
         Stage modal_stage = new Stage();

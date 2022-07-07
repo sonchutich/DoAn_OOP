@@ -39,6 +39,14 @@ public class Bill {
         this.Thanhtien = Thanhtien;
     }
 
+    public Bill(int STT, String MaHD, Date NgayLap, int TongTien, String MaNV) {
+        this.STT = STT;
+        this.MaHD = MaHD;
+        this.NgayHD = NgayLap;
+        this.Tongtien = TongTien;
+        this.MaNV = MaNV;
+    }
+
     public int getGiaBan() {
         return GiaBan;
     }
