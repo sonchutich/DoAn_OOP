@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardController">
+   <children>
+      <Pane prefHeight="80.0" prefWidth="1280.0" style="-fx-background-color: #716DF2;">
+         <children>
+            <Label layoutX="577.0" layoutY="15.0" style="-fx-background-color: white;" text="Hệ Thống Quản Lý Cửa Hàng" textAlignment="CENTER" underline="true">
+               <font>
+                  <Font name="Cambria" size="25.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Label>
+         </children></Pane>
+      <GridPane layoutY="80.0" prefHeight="820.0" prefWidth="200.0" style="-fx-background-color: #716DF2;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="180.0" minHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="180.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="180.0" minHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="180.0" minHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="180.0" minHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="180.0" minHeight="0.0" prefHeight="61.26417788664793" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="644.0" minHeight="10.0" prefHeight="522.2452780104658" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="btbBanHang" mnemonicParsing="false" onAction="#BanHang" prefHeight="50.0" prefWidth="200.0" text="Bán Hàng">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+               </GridPane.margin></Button>
+            <Button fx:id="btnKhoHang" mnemonicParsing="false" onAction="#KhoHang" prefHeight="50.0" prefWidth="200.0" text="Kho Hàng" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="40.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btnBaoCao" mnemonicParsing="false" onAction="#BaoCao" prefHeight="50.0" prefWidth="200.0" text="Hoá Đơn" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="50.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btnKhachHang" mnemonicParsing="false" onAction="#KhachHang" prefHeight="50.0" prefWidth="200.0" text="Khách Hàng" GridPane.rowIndex="4">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="60.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btnNhanVien" mnemonicParsing="false" onAction="#Nhanvien" prefHeight="50.0" prefWidth="180.0" text="Nhân Viên" GridPane.rowIndex="5">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="70.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="btnSanPham" mnemonicParsing="false" onAction="#SanPham" prefHeight="50.0" prefWidth="200.0" text="Sản Phẩm" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
+               </GridPane.margin>
+            </Button>
+         </children>
+      </GridPane>
+      <Pane fx:id="rootPane" layoutX="200.0" layoutY="80.0" prefHeight="820.0" prefWidth="1080.0" />
+   </children>
+</AnchorPane>
