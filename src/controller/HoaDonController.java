@@ -7,16 +7,19 @@ package controller;
 import dba.ConnectDB;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
@@ -83,11 +86,12 @@ public class HoaDonController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) { 
+    public void initialize(URL url, ResourceBundle rb) {
         // TODO
         loadHD();
     }
@@ -112,17 +116,17 @@ public class HoaDonController implements Initializable {
     }
 
     private void loadHD() {
-        
+
         refreshTable();
         STT_col.setCellValueFactory(new PropertyValueFactory<>("STT"));
         MaHD_col.setCellValueFactory(new PropertyValueFactory<>("MaHD"));
         Ngay_col.setCellValueFactory(new PropertyValueFactory<>("NgayHD"));
         TongTien_col.setCellValueFactory(new PropertyValueFactory<>("Tongtien"));
-        
+
         tb_HoaDon.setItems(BillList);
     }
-    
-    public void setDetail(MouseEvent event){
+
+    public void setDetail(MouseEvent event) {
         int mahd;
         DateFormat dateFormat = null;
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -131,14 +135,15 @@ public class HoaDonController implements Initializable {
         mahd = Integer.valueOf(clickedProduct.getMaHD());
         loadDetail(mahd);
         txt_MaHD.setText(clickedProduct.getMaHD());
+        txt_Search_MaHD.setText(clickedProduct.getMaHD());
         txt_NgayHD.setText(ngayhd);
         txt_TongTien.setText(String.valueOf(clickedProduct.getTongtien()));
     }
-    
-    public void refreshTbDetail(int a){
+
+    public void refreshTbDetail(int a) {
         DetailBillList.clear();
         try {
-            query = "select ROW_NUMBER() OVER (ORDER BY a.MaHD) AS [STT], a.MaMH,b.TenMH,a.SoLuongBan,c.GiaBan,a.Thanhtien from ChiTietHoaDon a, MatHang b, LoHang c where MaHD = "+ a +" and a.MaMH = b.MaMH and b.MaMH = c.MaMH group by a.MaHD, a.MaMH, b.TenMH, a.SoLuongBan  ,c.GiaBan, a.Thanhtien;";
+            query = "select ROW_NUMBER() OVER (ORDER BY a.MaHD) AS [STT], a.MaMH,b.TenMH,a.SoLuongBan,c.GiaBan,a.Thanhtien from ChiTietHoaDon a, MatHang b, LoHang c where MaHD = " + a + " and a.MaMH = b.MaMH and b.MaMH = c.MaMH group by a.MaHD, a.MaMH, b.TenMH, a.SoLuongBan  ,c.GiaBan, a.Thanhtien;";
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -155,8 +160,8 @@ public class HoaDonController implements Initializable {
             Logger.getLogger(HoaDonController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void loadDetail(int a){
+
+    public void loadDetail(int a) {
         refreshTbDetail(a);
         Col_STT.setCellValueFactory(new PropertyValueFactory<>("STT"));
         Col_MaMH.setCellValueFactory(new PropertyValueFactory<>("MaMH"));
@@ -164,7 +169,74 @@ public class HoaDonController implements Initializable {
         Col_SL.setCellValueFactory(new PropertyValueFactory<>("SoLuong"));
         Col_Gia.setCellValueFactory(new PropertyValueFactory<>("GiaBan"));
         Col_Thanhtien.setCellValueFactory(new PropertyValueFactory<>("Thanhtien"));
-        
+
         tb_DetailHD.setItems(DetailBillList);
+    }
+
+    public void DeleteHD(ActionEvent e) {
+        String MaHD = txt_MaHD.getText();
+        try {
+            query = "exec DeleteHD " + MaHD + ";";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println("Done");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        loadHD();
+    }
+
+    public void TimKiemHD(ActionEvent e) {
+        String MaHD = txt_Search_MaHD.getText();
+        BillList.clear();
+        try {
+            query = "select ROW_NUMBER() OVER (ORDER BY MaHD) AS [STT],MaHD,NgayHD,TongTien from HoaDon where MaHD = "+ MaHD +";";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                BillList.add(new Bill(
+                        rs.getInt("STT"),
+                        rs.getString("MaHD"),
+                        rs.getDate("NgayHD"),
+                        rs.getInt("TongTien")));
+                tb_HoaDon.setItems(BillList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(HoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void refresh(ActionEvent e){
+        loadHD();
+        txt_Search_MaHD.clear();
+        txt_Search_NgayBD.getEditor().clear();
+        txt_Search_NgayKT.getEditor().clear();
+        tb_DetailHD.getItems().clear();
+        txt_MaHD.clear();
+        txt_NgayHD.clear();
+        txt_TongTien.clear();
+    }
+    
+    public void filterHD(ActionEvent e){
+        LocalDate NgayBD = txt_Search_NgayBD.getValue();
+        LocalDate NgayKT = txt_Search_NgayKT.getValue();
+        BillList.clear();
+        try {
+            query = "select ROW_NUMBER() OVER (ORDER BY MaHD) AS [STT],MaHD,NgayHD,TongTien from HoaDon \n" +
+                "where NgayHD between '"+NgayBD+"' and '"+NgayKT+"';";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                BillList.add(new Bill(
+                        rs.getInt("STT"),
+                        rs.getString("MaHD"),
+                        rs.getDate("NgayHD"),
+                        rs.getInt("TongTien")));
+                tb_HoaDon.setItems(BillList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(HoaDonController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

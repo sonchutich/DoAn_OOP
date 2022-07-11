@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -76,11 +78,13 @@ public class NhanVienController implements Initializable {
     private TableColumn<Staff, String> DiaChi_col;
     @FXML
     private TableColumn<Staff, String> SDT_col;
-
+    
     @FXML
-    private TextField txt_MaHD;
+    private TextField txt_Search_MaHD;
     @FXML
-    private TextField txt_NgayBD;
+    private DatePicker txt_Search_NgayBD;
+    @FXML
+    private DatePicker txt_Search_NgayKT;
     @FXML
     private TextField txt_NgayKT;
     @FXML
@@ -374,5 +378,57 @@ public class NhanVienController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(BanHangController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void filterHD(ActionEvent e){
+        LocalDate NgayBD = txt_Search_NgayBD.getValue();
+        LocalDate NgayKT = txt_Search_NgayKT.getValue();
+        String MaNV = txt_MaNV.getText();
+        BillList.clear();
+        try {
+            query = "select ROW_NUMBER() OVER (ORDER BY MaHD) AS [STT], b.MaHD, b.NgayHD, b.MaKH, b.TongTien from NhanVien a, HoaDon b \n" +
+                "where a.MaNV = b.MaNV and a.MaNV = '"+MaNV+"' and NgayHD between '"+NgayBD+"' and '"+NgayKT+"';";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                BillList.add(new Bill(
+                        rs.getInt("STT"),
+                        rs.getString("MaHD"),
+                        rs.getDate("NgayHD"),
+                        rs.getString("MaKH"),
+                        rs.getInt("TongTien")));
+                tb_HoaDon.setItems(BillList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void TimKiemHD(ActionEvent e) {
+        String MaHD = txt_Search_MaHD.getText();
+        String MaNV = txt_MaNV.getText();
+        BillList.clear();
+        try {
+            query = "select ROW_NUMBER() OVER (ORDER BY MaHD) AS [STT], b.MaHD, b.NgayHD, b.MaKH, b.TongTien from NhanVien a, HoaDon b \n" +
+                "where a.MaNV = b.MaNV and a.MaNV = '"+MaNV+"' and b.MaHD = "+MaHD+";";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                BillList.add(new Bill(
+                        rs.getInt("STT"),
+                        rs.getString("MaHD"),
+                        rs.getDate("NgayHD"),
+                        rs.getString("MaKH"),
+                        rs.getInt("TongTien")));
+                tb_HoaDon.setItems(BillList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void refresh(ActionEvent e){
+        String MaNV = txt_MaNV.getText();
+        txt_Search_MaHD.clear();
+        txt_Search_NgayBD.getEditor().clear();
+        txt_Search_NgayKT.getEditor().clear();
+        loadDetail(Integer.valueOf(MaNV));
     }
 }

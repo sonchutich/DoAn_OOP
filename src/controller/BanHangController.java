@@ -182,7 +182,7 @@ public class BanHangController implements Initializable {
         String SDTKH = txt_SDTKH.getText();
         if (checkTextField(TenKH, SDTKH)) {
             try {
-                query = "insert into KhachHang values ('" + TenKH + "','" + SDTKH + "');";
+                query = "insert into KhachHang values (N'" + TenKH + "','" + SDTKH + "');";
                 ps = con.prepareStatement(query);
                 rs = ps.executeQuery();
                 while (rs.next()) {
@@ -302,7 +302,8 @@ public class BanHangController implements Initializable {
             String Ngayhd = txt_NgayHD.getText();
             String MaKH = txt_MaKH.getText();
             String Tongtien = txt_ThanhTien.getText();
-            query = "insert into HoaDon(NgayHD,MaKH,TongTien) values ('" + Ngayhd + "'," + MaKH + "," + Tongtien + ");";
+            String MaNV = txt_MaNV.getText();
+            query = "insert into HoaDon(NgayHD,MaKH,MaNV,TongTien) values ('" + Ngayhd + "'," + MaKH + ",'"+MaNV+"',"+ Tongtien + ");";
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {

@@ -215,7 +215,7 @@ public class KhachHangController implements Initializable {
         String SDTKH = txt_SDTKH.getText();
         if (checkTextField(TenKH, SDTKH)) {
             try {
-                query = "insert into KhachHang values ('" + TenKH + "','" + SDTKH + "');";
+                query = "insert into KhachHang values (N'" + TenKH + "','" + SDTKH + "');";
                 ps = con.prepareStatement(query);
                 rs = ps.executeQuery();
                 while (rs.next()) {
