@@ -215,16 +215,26 @@ public class KhoHangController implements Initializable {
     }
     
     @FXML
-    public void Delete(MouseEvent event) throws IOException{
+    public void Delete(ActionEvent e) throws IOException{
         Product clickedProduct = Product_tb.getSelectionModel().getSelectedItem();
-        ProductList.remove(clickedProduct);
-        
+        String MaLo = clickedProduct.getMaLo();
+        try {
+            query = "delete from LoHang where MaLo = '" + MaLo + "';";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println("Done");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KhoHangController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        loadTable();
     }
 
 
     public void Edit(ActionEvent e) throws IOException {
         
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("infoProduct.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/infoProduct.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
 
         Stage stage = new Stage();
