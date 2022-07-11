@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -33,7 +34,13 @@ import models.Product;
 public class SanPhamController implements Initializable {
 
     @FXML
-    private TextField txt_TuKhoa;
+    private TextField txt_Search_DVT;
+    @FXML
+    private TextField txt_Search_MaMH;
+    @FXML
+    private TextField txt_GiaBD;
+    @FXML
+    private TextField txt_GiaKT;
     @FXML
     private Button btn_refresh;
     @FXML
@@ -62,7 +69,8 @@ public class SanPhamController implements Initializable {
     private TableColumn<Product, String> GiaBan_Col;
     @FXML
     private TableColumn<Product, String> Note_col;
-
+    @FXML
+    private TextField txt_Status;
     String query = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -125,5 +133,86 @@ public class SanPhamController implements Initializable {
         txt_DVT.setText(clickedProduct.getDVT());
         txt_SL.setText(String.valueOf(clickedProduct.getSoLuong()));
         txt_GiaBan.setText(String.valueOf(clickedProduct.getGiaBan()));
+        int SL = clickedProduct.getSoLuong();
+        if(SL <= 100){
+            txt_Status.setText("Sắp Hết");
+            txt_Status.setStyle("-fx-text-fill: red;");
+        }else{
+            txt_Status.setText("Ready");
+            txt_Status.setStyle("-fx-text-fill: green;");
+        }
+    }
+    public void TimKiemSP(ActionEvent e){
+        String MaMH = txt_Search_MaMH.getText();
+        ProductList.clear();
+        try {
+            query = "select ROW_NUMBER() OVER (ORDER BY a.MaMH) AS [STT],a.MaMH,b.TenMH, a.DVT, SUM(a.SoLuong) as SoLuong,  a.GiaBan from LoHang a, MatHang b where a.MaMH = b.MaMH and a.MaMH = '"+MaMH+"' group by a.MaMH, b.TenMH, a.GiaBan, a.DVT;";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductList.add(new Product(
+                        rs.getInt("STT"),
+                        rs.getString("MaMH"),
+                        rs.getString("TenMH"),
+                        rs.getString("DVT"),
+                        rs.getInt("SoLuong"),
+                        rs.getInt("GiaBan")));
+                tb_Sanpham.setItems(ProductList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void filterDVT(ActionEvent e){
+        String DVT = txt_Search_DVT.getText();
+        ProductList.clear();
+        try {
+            query = "select ROW_NUMBER() OVER (ORDER BY a.MaMH) AS [STT],a.MaMH,b.TenMH, a.DVT, SUM(a.SoLuong) as SoLuong,  a.GiaBan from LoHang a, MatHang b where a.MaMH = b.MaMH and a.DVT = '"+DVT+"' group by a.MaMH, b.TenMH, a.GiaBan, a.DVT;";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductList.add(new Product(
+                        rs.getInt("STT"),
+                        rs.getString("MaMH"),
+                        rs.getString("TenMH"),
+                        rs.getString("DVT"),
+                        rs.getInt("SoLuong"),
+                        rs.getInt("GiaBan")));
+                tb_Sanpham.setItems(ProductList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void filterPrice(ActionEvent e){
+        String GiaBD = txt_GiaBD.getText();
+        String GiaKT = txt_GiaKT.getText();
+        ProductList.clear();
+        try {
+            query = "select ROW_NUMBER() OVER (ORDER BY a.MaMH) AS [STT],a.MaMH,b.TenMH, a.DVT, SUM(a.SoLuong) as SoLuong,  a.GiaBan \n" +
+            "from LoHang a, MatHang b where a.MaMH = b.MaMH and a.GiaBan between "+GiaBD+" and "+GiaKT+" \n" +
+            "group by a.MaMH, b.TenMH, a.GiaBan, a.DVT;";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductList.add(new Product(
+                        rs.getInt("STT"),
+                        rs.getString("MaMH"),
+                        rs.getString("TenMH"),
+                        rs.getString("DVT"),
+                        rs.getInt("SoLuong"),
+                        rs.getInt("GiaBan")));
+                tb_Sanpham.setItems(ProductList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SanPhamController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void refresh(ActionEvent e){
+        txt_Search_MaMH.clear();
+        txt_Search_DVT.clear();
+        txt_GiaBD.clear();
+        txt_GiaKT.clear();
+        refreshTable();
     }
 }

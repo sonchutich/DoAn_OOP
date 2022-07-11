@@ -30,15 +30,35 @@
                <children>
                   <Pane prefHeight="209.0" prefWidth="466.0">
                      <children>
-                        <Label layoutX="39.0" layoutY="14.0" text="Tìm kiếm">
+                        <Label layoutX="38.0" layoutY="3.0" text="Tìm kiếm">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="41.0" layoutY="62.0" text="Từ khoá" />
-                        <TextField fx:id="txt_TuKhoa" layoutX="108.0" layoutY="58.0" />
-                        <Button fx:id="btn_refresh" layoutX="315.0" layoutY="58.0" mnemonicParsing="false" text="Làm mới" />
+                        <Label layoutX="41.0" layoutY="49.0" text="Mã Sản Phẩm">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <TextField fx:id="txt_Search_MaMH" layoutX="134.0" layoutY="45.0" prefHeight="25.0" prefWidth="149.0" />
+                        <Button fx:id="btn_refresh" layoutX="313.0" layoutY="45.0" mnemonicParsing="false" onAction="#TimKiemSP" text="Tìm Kiếm" />
                         <Line endX="-99.39620971679688" endY="148.20753479003906" layoutX="564.0" layoutY="61.0" startX="-99.39620971679688" startY="-61.00000762939453" />
+                        <Label layoutX="39.0" layoutY="84.0" text="Đơn vị tính">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txt_Search_DVT" layoutX="134.0" layoutY="80.0" />
+                        <TextField fx:id="txt_GiaBD" layoutX="134.0" layoutY="115.0" prefHeight="25.0" prefWidth="88.0" />
+                        <Label layoutX="38.0" layoutY="119.0" text="Khoảng giá">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txt_GiaKT" layoutX="267.0" layoutY="115.0" prefHeight="25.0" prefWidth="88.0" />
+                        <Line endX="4.91552734375" layoutX="245.0" layoutY="127.0" startX="-4.08447265625" />
+                        <Button layoutX="313.0" layoutY="80.0" mnemonicParsing="false" onAction="#filterDVT" prefHeight="25.0" prefWidth="65.0" text="Lọc ĐVT" />
+                        <Button layoutX="378.0" layoutY="115.0" mnemonicParsing="false" onAction="#filterPrice" prefHeight="25.0" prefWidth="65.0" text="Lọc Giá" />
+                        <Button layoutX="398.0" layoutY="4.0" mnemonicParsing="false" onAction="#refresh" text="Làm Mới" />
                      </children>
                   </Pane>
                   <Pane prefHeight="209.0" prefWidth="618.0">
@@ -53,6 +73,11 @@
                         <TextField fx:id="txt_SL" layoutX="433.0" layoutY="16.0" />
                         <TextField fx:id="txt_GiaBan" layoutX="433.0" layoutY="60.0" />
                         <TextField fx:id="txt_DVT" layoutX="140.0" layoutY="105.0" />
+                        <TextField fx:id="txt_Status" disable="true" layoutX="433.0" layoutY="105.0" prefHeight="25.0" prefWidth="149.0">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </TextField>
                      </children>
                   </Pane>
                </children>

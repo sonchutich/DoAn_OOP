@@ -8,6 +8,7 @@ import dba.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,6 +17,9 @@ import javafx.scene.control.TextField;
 import models.Product;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
 /**
@@ -77,7 +81,7 @@ public class InfoProductController {
         DateFormat dateFormat = null;
         DateFormat timeFormat = null;
         timeFormat = new SimpleDateFormat("HH:mm:ss");
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         
         String NgayNhap = dateFormat.format(product.getNgayNhap());
         String HSD = dateFormat.format(product.getHSD());
@@ -98,19 +102,28 @@ public class InfoProductController {
 
     }
     public void edit(ActionEvent e){
+        String MaLo = txt_Malo.getText();
+        String MaMH = txt_maHH.getText();
+        int SL = Integer.valueOf(txt_soLuong.getText());
+        String DVT = txt_DVT.getText();
+        int GiaNhap = Integer.valueOf(txt_giaNhap.getText());
+        int GiaBan = Integer.valueOf(txt_giaBan.getText());
+        String HSD = HSDFld.getText();
+        String NCC = txt_NCC.getText();
+        try {
+            query = "update LoHang\n" +
+            "set MaMH = '"+MaMH+"',SoLuong = "+SL+",DVT = N'"+DVT+"',NCC = N'"+NCC+"',\n" +
+            "GiaNhap = "+GiaNhap+", GiaBan = "+GiaBan+", HSD = '"+HSD+"'\n" +
+            "where MaLo = '"+MaLo+"'";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println("Done");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(InfoProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
-//    private int executeQuery(String query) {
-//        int ERROR = -1;
-//        int rowEffected = 0;
-//        Statement st;
-//        try {
-//            st = con.createStatement();
-//            rowEffected = st.executeUpdate(query);
-//        } catch (Exception ex) {
-//            rowEffected = ERROR;
-//            ex.printStackTrace();
-//        }
-//        return rowEffected;
-//    }
+
 }
