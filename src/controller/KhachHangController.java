@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -81,7 +83,11 @@ public class KhachHangController implements Initializable {
     private TableColumn<Bill, String> Col_MaNV;
     @FXML
     private TableColumn<Bill, String> Col_Thanhtien1;
-
+    @FXML
+    private DatePicker txt_NgayBD;
+    @FXML
+    private DatePicker txt_NgayKT;
+    
     String query = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -268,5 +274,85 @@ public class KhachHangController implements Initializable {
             }
             loadKH();
     }
+    public void TimKiemHD(ActionEvent e){
+        String MaHD = txt_MaHD.getText();
+        BillList.clear();
+        try {
+            query = "select ROW_NUMBER() OVER (ORDER BY MaHD) AS [STT], b.MaHD, b.NgayHD, b.TongTien, b.MaNV \n" +
+            "from KhachHang a, HoaDon b \n" +
+            "where a.MaKH = b.MaKH and a.MaKH = "+txt_MaKH1.getText()+" and b.MaHD = "+MaHD+";";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                BillList.add(new Bill(
+                        rs.getInt("STT"),
+                        rs.getString("MaHD"),
+                        rs.getDate("NgayHD"),
+                        rs.getInt("TongTien"),
+                        rs.getString("MaNV")));
+                tb_DetailKH.setItems(BillList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void filterDateHD(ActionEvent e){
+        LocalDate NgayBD = txt_NgayBD.getValue();
+        LocalDate NgayKT = txt_NgayKT.getValue();
+        BillList.clear();
+        try {
+            query = "select ROW_NUMBER() OVER (ORDER BY MaHD) AS [STT], b.MaHD, b.NgayHD, b.TongTien, b.MaNV \n" +
+            "from KhachHang a, HoaDon b \n" +
+            "where a.MaKH = b.MaKH and a.MaKH = "+txt_MaKH1.getText()+" and b.NgayHD between '"+NgayBD+"' and '"+NgayKT+"';";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                BillList.add(new Bill(
+                        rs.getInt("STT"),
+                        rs.getString("MaHD"),
+                        rs.getDate("NgayHD"),
+                        rs.getInt("TongTien"),
+                        rs.getString("MaNV")));
+                tb_DetailKH.setItems(BillList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void refresh(ActionEvent e){
+        String MaKH = txt_MaKH1.getText();
+        txt_MaHD.clear();
+        txt_NgayBD.getEditor().clear();
+        txt_NgayKT.getEditor().clear();
+        refreshTbDetail(Integer.valueOf(MaKH));
+    }
+    public void edit(ActionEvent e){
+        String MaKH = txt_MaKH.getText();
+        String TenKH = txt_TenKH.getText();
+        String SDTKH = txt_SDTKH.getText();
+        try {
+            query = "update KhachHang set TenKH = N'"+TenKH+"', SDTKH = '"+SDTKH+"' where MaKH = "+MaKH+";";
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                BillList.add(new Bill(
+                        rs.getInt("STT"),
+                        rs.getString("MaHD"),
+                        rs.getDate("NgayHD"),
+                        rs.getInt("TongTien"),
+                        rs.getString("MaNV")));
+                tb_DetailKH.setItems(BillList);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        refreshKH(e);
+        loadKH();
+    }
+    public void refreshKH(ActionEvent e){
+        txt_MaKH.clear();
+        txt_TenKH.clear();
+        txt_SDTKH.clear();
+    }
 }
